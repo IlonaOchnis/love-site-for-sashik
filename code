@@ -308,35 +308,35 @@
     // ------------------------------------------------------------------
     const photosData = [
         {
-            src: "photo1.jpg",   // ЗАМЕНИ на свою ссылку (например, "foto1.jpg")
+            src: "https://github.com/IlonaOchnis/love-site-for-sashik/blob/main/photo1.jpg",   // ЗАМЕНИ на свою ссылку (например, "foto1.jpg")
             caption: "наше первое фото в городе у моря"
         },
         {
-            src: "photo2.jpg",   // ЗАМЕНИ на "foto2.jpg"
+            src: "https://github.com/IlonaOchnis/love-site-for-sashik/blob/main/photo2.jpg",   // ЗАМЕНИ на "foto2.jpg"
             caption: "самый вкусный вечер со шпротиками"
         },
         {
-            src: "photo3.jpg",   // ЗАМЕНИ
+            src: "https://github.com/IlonaOchnis/love-site-for-sashik/blob/main/photo3.jpg",   // ЗАМЕНИ
             caption: "обнимашки у моря"
         },
         {
-            src: "photo4.jpg",   // ЗАМЕНИ
+            src: "https://github.com/IlonaOchnis/love-site-for-sashik/blob/main/photo4.jpg",   // ЗАМЕНИ
             caption: "холодни зима"
         },
         {
-            src: "photo5.jpg",   // ЗАМЕНИ
+            src: "https://github.com/IlonaOchnis/love-site-for-sashik/blob/main/photo5.jpg",   // ЗАМЕНИ
             caption: "это мы нишевые сидим"
         },
         {
-            src: "photo6.jpg",   // ЗАМЕНИ
+            src: "https://github.com/IlonaOchnis/love-site-for-sashik/blob/main/photo6.jpg",   // ЗАМЕНИ
             caption: "кракозябрики в аквапарке"
         },
 	{
-            src: "photo7.jpg",   // ЗАМЕНИ на "foto2.jpg"
+            src: "https://github.com/IlonaOchnis/love-site-for-sashik/blob/main/photo7.jpg",   // ЗАМЕНИ на "foto2.jpg"
             caption: "самые крутые рейверы"
         },
 	{
-            src: "photo8.jpg",   // ЗАМЕНИ на "foto2.jpg"
+            src: "https://github.com/IlonaOchnis/love-site-for-sashik/blob/main/photo8.jpg",   // ЗАМЕНИ на "foto2.jpg"
             caption: "чуть не встретили джисуса"
         }
     ];
