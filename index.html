@@ -534,5 +534,116 @@
 
     console.log("%c💕 Сайт с галереей и стрелками готов! 💕", "color: #c94f8c; font-size: 14px");
 </script>
+<!-- Падающие картинки -->
+<script>
+    // ★★★ НАСТРОЙКИ ★★★
+    const FALLING_IMAGES = ["https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/cake.png"];
+    const FALL_SPEED = 3;         // скорость падения (чем больше, тем быстрее)
+    // =========================
+
+    function createFallingImage() {
+        if (FALLING_IMAGES.length === 0) return;
+        
+        const img = document.createElement('img');
+        // выбираем случайную картинку из списка
+        const randomIndex = Math.floor(Math.random() * FALLING_IMAGES.length);
+        img.src = FALLING_IMAGES[randomIndex];
+        
+        // стили для падающего элемента
+        img.style.position = 'fixed';
+        img.style.top = '-50px';
+        img.style.left = Math.random() * 100 + '%';
+        img.style.width = '60px';
+        img.style.height = '60px';
+        img.style.objectFit = 'contain';
+        img.style.pointerEvents = 'none';
+        img.style.zIndex = '999';
+        img.style.opacity = '0.8';
+        
+        document.body.appendChild(img);
+        
+        let posY = -50;
+        const speed = FALL_SPEED + Math.random() * 3;
+        
+        function fall() {
+            posY += speed;
+            img.style.top = posY + 'px';
+            
+            // если картинка упала за экран — удаляем
+            if (posY > window.innerHeight + 50) {
+                if (img && img.remove) img.remove();
+                return;
+            }
+            requestAnimationFrame(fall);
+        }
+        
+        fall();
+        
+        // удаляем картинку через 15 секунд на всякий случай
+        setTimeout(() => {
+            if (img && img.remove) img.remove();
+        }, 15000);
+    }
+    
+    // запускаем падающие картинки каждые 0.8 секунды
+    setInterval(createFallingImage, 800);
+</script>
+
+
+<!-- Музыкальный плеер -->
+<div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; background: rgba(255,255,240,0.9); border-radius: 60px; padding: 8px 16px; backdrop-filter: blur(4px); box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <button id="playPauseBtn" style="background: #ff88b2; border: none; color: white; font-size: 1.2rem; border-radius: 40px; padding: 6px 14px; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 6px;">
+        <span id="playPauseIcon">🎵</span> <span id="playPauseText">Включить музыку</span>
+    </button>
+</div>
+
+<audio id="bgMusic" loop preload="auto">
+    <source src="https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/Kassiopeya_-_Molitva_70680463.mp3" type="audio/mpeg">
+    <!-- Если хочешь свою песню — загрузи файл .mp3 в репозиторий и замени ссылку выше -->
+</audio>
+
+<script>
+    const music = document.getElementById('bgMusic');
+    const btn = document.getElementById('playPauseBtn');
+    const iconSpan = document.getElementById('playPauseIcon');
+    const textSpan = document.getElementById('playPauseText');
+    
+    let isPlaying = false;
+    
+    // Пытаемся включить музыку при первом касании/клике в любом месте
+    function enableMusic() {
+        music.play().then(() => {
+            isPlaying = true;
+            iconSpan.innerHTML = '🔊';
+            textSpan.innerHTML = 'Выключить музыку';
+        }).catch(e => console.log("Автовоспроизведение заблокировано:", e));
+        document.removeEventListener('click', enableMusic);
+        document.removeEventListener('touchstart', enableMusic);
+    }
+    
+    // Вешаем обработчик на первую же кнопку
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (isPlaying) {
+            music.pause();
+            isPlaying = false;
+            iconSpan.innerHTML = '🎵';
+            textSpan.innerHTML = 'Включить музыку';
+        } else {
+            music.play().then(() => {
+                isPlaying = true;
+                iconSpan.innerHTML = '🔊';
+                textSpan.innerHTML = 'Выключить музыку';
+            }).catch(e => alert("Нажми ещё раз — браузер просит разрешения"));
+        }
+    });
+    
+    // Добавляем возможность включить музыку первым любым кликом по странице
+    document.addEventListener('click', enableMusic);
+    document.addEventListener('touchstart', enableMusic);
+    
+    // Ставим громкость чуть тише, чтобы не перебивала голос
+    music.volume = 0.3;
+</script>
 </body>
 </html>
