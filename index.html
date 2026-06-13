@@ -90,6 +90,14 @@
             display: block;
         }
 
+        /* подпись под фото в сетке */
+        .photo-label {
+            font-size: 0.7rem;
+            color: #bc7b9e;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
         /* Модальное окно (всплывающее фото) */
         .modal {
             display: none;
@@ -159,6 +167,34 @@
             transform: scale(1.05);
         }
 
+        /* Кнопки навигации (стрелки) */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            font-weight: bold;
+            color: #b34180;
+            background: rgba(255,255,240,0.7);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1002;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .nav-arrow:hover {
+            background: rgba(255, 200, 220, 0.9);
+            transform: translateY(-50%) scale(1.05);
+        }
+        .prev-arrow { left: 10px; }
+        .next-arrow { right: 10px; }
+
         /* Кнопка-сюрприз */
         .surprise-btn {
             background: #ff88b2;
@@ -203,14 +239,6 @@
             margin-top: 28px;
             opacity: 0.7;
         }
-
-        /* подпись под фото в сетке */
-        .photo-label {
-            font-size: 0.7rem;
-            color: #bc7b9e;
-            margin-top: 6px;
-            font-weight: 500;
-        }
     </style>
 </head>
 <body>
@@ -226,43 +254,221 @@
 
     <button class="surprise-btn" id="surpriseBtn">💌 жмакай 💌</button>
 
-<!-- БЛОК ТАЙМЕРА ДО 31 АВГУСТА 2026 -->
-<div class="timer-block" style="background: rgba(255, 240, 245, 0.9); border-radius: 60px; padding: 16px 20px; margin: 15px 0 20px; text-align: center; border: 1px solid #ffbfd5;">
-    <div style="font-size: 0.9rem; color: #b85c86; font-weight: 600; margin-bottom: 8px;">
-        ⏳ До нашей первой годовщины осталось ⏳
+    <!-- БЛОК ТАЙМЕРА ДО 31 АВГУСТА 2026 -->
+    <div class="timer-block" style="background: rgba(255, 240, 245, 0.9); border-radius: 60px; padding: 16px 20px; margin: 15px 0 20px; text-align: center; border: 1px solid #ffbfd5;">
+        <div style="font-size: 0.9rem; color: #b85c86; font-weight: 600; margin-bottom: 8px;">
+            ⏳ До нашей первой годовщины осталось ⏳
+        </div>
+        <div id="loveTimer" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; font-weight: bold;">
+            <div style="background: white; border-radius: 40px; padding: 8px 14px; min-width: 70px;">
+                <div id="days" style="font-size: 2rem; color: #c43a7a; line-height: 1; font-weight: 800;">00</div>
+                <div style="font-size: 0.7rem; color: #e597b9;">ДНЕЙ</div>
+            </div>
+            <div style="background: white; border-radius: 40px; padding: 8px 14px; min-width: 70px;">
+                <div id="hours" style="font-size: 2rem; color: #c43a7a; line-height: 1; font-weight: 800;">00</div>
+                <div style="font-size: 0.7rem; color: #e597b9;">ЧАСОВ</div>
+            </div>
+            <div style="background: white; border-radius: 40px; padding: 8px 14px; min-width: 70px;">
+                <div id="minutes" style="font-size: 2rem; color: #c43a7a; line-height: 1; font-weight: 800;">00</div>
+                <div style="font-size: 0.7rem; color: #e597b9;">МИНУТ</div>
+            </div>
+            <div style="background: white; border-radius: 40px; padding: 8px 14px; min-width: 70px;">
+                <div id="seconds" style="font-size: 2rem; color: #c43a7a; line-height: 1; font-weight: 800;">00</div>
+                <div style="font-size: 0.7rem; color: #e597b9;">СЕКУНД</div>
+            </div>
+        </div>
+        <div style="margin-top: 10px; font-size: 0.75rem; color: #d987ae;">
+            ❤️ 31 августа 2026 ❤️
+        </div>
     </div>
-    <div id="loveTimer" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; font-weight: bold;">
-        <div style="background: white; border-radius: 40px; padding: 8px 14px; min-width: 70px;">
-            <div id="days" style="font-size: 2rem; color: #c43a7a; line-height: 1; font-weight: 800;">00</div>
-            <div style="font-size: 0.7rem; color: #e597b9;">ДНЕЙ</div>
-        </div>
-        <div style="background: white; border-radius: 40px; padding: 8px 14px; min-width: 70px;">
-            <div id="hours" style="font-size: 2rem; color: #c43a7a; line-height: 1; font-weight: 800;">00</div>
-            <div style="font-size: 0.7rem; color: #e597b9;">ЧАСОВ</div>
-        </div>
-        <div style="background: white; border-radius: 40px; padding: 8px 14px; min-width: 70px;">
-            <div id="minutes" style="font-size: 2rem; color: #c43a7a; line-height: 1; font-weight: 800;">00</div>
-            <div style="font-size: 0.7rem; color: #e597b9;">МИНУТ</div>
-        </div>
-        <div style="background: white; border-radius: 40px; padding: 8px 14px; min-width: 70px;">
-            <div id="seconds" style="font-size: 2rem; color: #c43a7a; line-height: 1; font-weight: 800;">00</div>
-            <div style="font-size: 0.7rem; color: #e597b9;">СЕКУНД</div>
-        </div>
-    </div>
-    <div style="margin-top: 10px; font-size: 0.75rem; color: #d987ae;">
-        ❤️ 31 августа 2026 ❤️
+</div>
+
+<!-- Всплывающее окно (модалка) -->
+<div id="photoModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeModalBtn">&times;</span>
+        <img id="modalImage" src="" alt="Наше фото">
+        <div id="modalCaption" class="caption"></div>
     </div>
 </div>
 
 <script>
-    // Таймер до 31 августа 2026 года
+    // ------------------------------------------------------------------
+    // ★★★ ТВОИ ФОТОГРАФИИ ★★★
+    // ------------------------------------------------------------------
+    const photosData = [
+        {
+            src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo1.jpg",
+            caption: "наше первое фото в городе у моря"
+        },
+        {
+            src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo2.jpg",
+            caption: "самый вкусный вечер со шпротиками"
+        },
+        {
+            src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo3.jpg",
+            caption: "обнимашки у моря"
+        },
+        {
+            src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo4.jpg",
+            caption: "холодни зима"
+        },
+        {
+            src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo5.jpg",
+            caption: "это мы нишевые сидим"
+        },
+        {
+            src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo6.jpg",
+            caption: "кракозябрики в аквапарке"
+        },
+        {
+            src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo7.jpg",
+            caption: "самые крутые рейверы"
+        },
+        {
+            src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo8.jpg",
+            caption: "чуть не встретили джисуса"
+        }
+    ];
+    // ------------------------------------------------------------------
+
+    let currentPhotoIndex = 0;
+
+    // Функция для отрисовки миниатюр
+    function renderGallery() {
+        const grid = document.getElementById('photoGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        photosData.forEach((photo, index) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.classList.add('photo-item');
+            const img = document.createElement('img');
+            img.src = photo.src;
+            img.alt = `Фото ${index+1}`;
+            img.loading = "lazy";
+            const label = document.createElement('div');
+            label.classList.add('photo-label');
+            label.innerText = photo.caption.length > 20 ? photo.caption.slice(0,18)+'…' : photo.caption;
+            
+            itemDiv.appendChild(img);
+            itemDiv.appendChild(label);
+            
+            // Открытие модалки с запоминанием индекса
+            itemDiv.addEventListener('click', (e) => {
+                currentPhotoIndex = index;
+                openModalWithPhoto();
+            });
+            grid.appendChild(itemDiv);
+        });
+    }
+
+    // Открыть модальное окно с текущей фотографией
+    function openModalWithPhoto() {
+        const photo = photosData[currentPhotoIndex];
+        if (!photo) return;
+        modalImage.src = photo.src;
+        modalCaption.innerText = photo.caption;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        updateNavButtonsVisibility();
+    }
+
+    // Показать следующее фото
+    function nextPhoto() {
+        if (currentPhotoIndex + 1 < photosData.length) {
+            currentPhotoIndex++;
+            openModalWithPhoto();
+        } else {
+            showToastMessage('❤️ Это последнее фото ❤️');
+        }
+    }
+
+    // Показать предыдущее фото
+    function prevPhoto() {
+        if (currentPhotoIndex - 1 >= 0) {
+            currentPhotoIndex--;
+            openModalWithPhoto();
+        } else {
+            showToastMessage('💫 Это первое фото 💫');
+        }
+    }
+
+    // Всплывающее уведомление
+    function showToastMessage(text) {
+        const msg = document.createElement('div');
+        msg.textContent = text;
+        msg.style.position = 'fixed';
+        msg.style.bottom = '20%';
+        msg.style.left = '50%';
+        msg.style.transform = 'translateX(-50%)';
+        msg.style.background = '#ff88b2';
+        msg.style.color = 'white';
+        msg.style.padding = '8px 16px';
+        msg.style.borderRadius = '40px';
+        msg.style.zIndex = '1001';
+        msg.style.fontSize = '0.9rem';
+        document.body.appendChild(msg);
+        setTimeout(() => msg.remove(), 1500);
+    }
+
+    // Обновить видимость стрелок
+    function updateNavButtonsVisibility() {
+        const prevBtn = document.getElementById('prevPhotoBtn');
+        const nextBtn = document.getElementById('nextPhotoBtn');
+        if (prevBtn) prevBtn.style.display = currentPhotoIndex === 0 ? 'none' : 'flex';
+        if (nextBtn) nextBtn.style.display = currentPhotoIndex === photosData.length - 1 ? 'none' : 'flex';
+    }
+
+    // Добавляем стрелки в модальное окно
+    function addNavigationArrows() {
+        const modalContent = document.querySelector('.modal-content');
+        if (!modalContent || document.getElementById('prevPhotoBtn')) return;
+
+        const prevBtn = document.createElement('div');
+        prevBtn.id = 'prevPhotoBtn';
+        prevBtn.innerHTML = '‹';
+        prevBtn.className = 'nav-arrow prev-arrow';
+        prevBtn.onclick = (e) => { e.stopPropagation(); prevPhoto(); };
+        modalContent.appendChild(prevBtn);
+
+        const nextBtn = document.createElement('div');
+        nextBtn.id = 'nextPhotoBtn';
+        nextBtn.innerHTML = '›';
+        nextBtn.className = 'nav-arrow next-arrow';
+        nextBtn.onclick = (e) => { e.stopPropagation(); nextPhoto(); };
+        modalContent.appendChild(nextBtn);
+    }
+
+    // --- Логика модального окна (с поддержкой стрелок) ---
+    const modal = document.getElementById('photoModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    function closeModal() {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (modal.style.display === 'flex') {
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowLeft') prevPhoto();
+            if (e.key === 'ArrowRight') nextPhoto();
+        }
+    });
+
+    // --- Таймер до 31 августа 2026 ---
     function updateTimer() {
-        const targetDate = new Date(2026, 7, 31, 0, 0, 0); // 31 августа 2026 (месяцы в JS с 0: 7 = август)
+        const targetDate = new Date(2026, 7, 31, 0, 0, 0);
         const now = new Date();
         const diff = targetDate - now;
 
         if (diff <= 0) {
-            // Если дата уже прошла или наступила
             document.getElementById('days').innerText = '00';
             document.getElementById('hours').innerText = '00';
             document.getElementById('minutes').innerText = '00';
@@ -282,130 +488,12 @@
         document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
         document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
     }
-
     updateTimer();
     setInterval(updateTimer, 1000);
-</script>
-</div>
-    
-<!-- Всплывающее окно (модалка) -->
-<div id="photoModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" id="closeModalBtn">&times;</span>
-        <img id="modalImage" src="" alt="Наше фото">
-        <div id="modalCaption" class="caption"></div>
-    </div>
-</div>
 
-<script>
-    // ------------------------------------------------------------------
-    // ★★★ ТУТ ТЫ ДОБАВЛЯЕШЬ СВОИ ФОТОГРАФИИ ★★★
-    // ------------------------------------------------------------------
-    // 1. Замени ссылки на свои реальные фото.
-    // 2. Если фото лежат в папке рядом с этим файлом — пиши просто "myphoto1.jpg"
-    // 3. Можно указать полный путь: "images/photo1.jpg"
-    // 4. Укажи подписи (короткие и милые моменты)
-    // ------------------------------------------------------------------
-   const photosData = [
-    {
-        src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo1.jpg",
-        caption: "наше первое фото в городе у моря"
-    },
-    {
-        src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo2.jpg",
-        caption: "самый вкусный вечер со шпротиками"
-    },
-    {
-        src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo3.jpg",
-        caption: "обнимашки у моря"
-    },
-    {
-        src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo4.jpg",
-        caption: "холодни зима"
-    },
-    {
-        src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo5.jpg",
-        caption: "это мы нишевые сидим"
-    },
-    {
-        src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo6.jpg",
-        caption: "кракозябрики в аквапарке"
-    },
-    {
-        src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo7.jpg",
-        caption: "самые крутые рейверы"
-    },
-    {
-        src: "https://raw.githubusercontent.com/IlonaOchnis/love-site-for-sashik/main/photo8.jpg",
-        caption: "чуть не встретили джисуса"
-    }
-];
-      // Функция для отрисовки миниатюр
-    function renderGallery() {
-        const grid = document.getElementById('photoGrid');
-        grid.innerHTML = '';
-        photosData.forEach((photo, index) => {
-            const itemDiv = document.createElement('div');
-            itemDiv.classList.add('photo-item');
-            // Создаём картинку
-            const img = document.createElement('img');
-            img.src = photo.src;
-            img.alt = `Фото ${index+1}`;
-            img.loading = "lazy";
-            // Подпись под фото (маленькая)
-            const label = document.createElement('div');
-            label.classList.add('photo-label');
-            label.innerText = photo.caption.length > 20 ? photo.caption.slice(0,18)+'…' : photo.caption;
-            
-            itemDiv.appendChild(img);
-            itemDiv.appendChild(label);
-            
-            // Открытие модалки при клике на фото
-            itemDiv.addEventListener('click', (e) => {
-                openModal(photo.src, photo.caption);
-            });
-            grid.appendChild(itemDiv);
-        });
-    }
-
-    // Модальное окно
-    const modal = document.getElementById('photoModal');
-    const modalImage = document.getElementById('modalImage');
-    const modalCaption = document.getElementById('modalCaption');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-
-    function openModal(imgSrc, captionText) {
-        modalImage.src = imgSrc;
-        modalCaption.innerText = captionText;
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // запрещаем скролл фона
-    }
-
-    function closeModal() {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-
-    // Закрытие по кнопке
-    closeModalBtn.addEventListener('click', closeModal);
-    // Закрытие по клику вне контента (на полупрозрачный фон)
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-    // Закрытие по Escape
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.style.display === 'flex') {
-            closeModal();
-        }
-    });
-
-    // Сюрприз: дополнительное милое сообщение + конфетти
+    // --- Сюрприз с конфетти ---
     const surpriseBtn = document.getElementById('surpriseBtn');
-    
     function createConfetti() {
-        // Простое конфетти из сердечек
         for (let i = 0; i < 80; i++) {
             const heart = document.createElement('div');
             heart.innerHTML = ['❤️','💖','💗','💓','🌸','✨','💕'][Math.floor(Math.random()*7)];
@@ -418,15 +506,9 @@
             heart.style.opacity = '0.9';
             heart.style.animation = `fall ${Math.random() * 2 + 2}s linear forwards`;
             document.body.appendChild(heart);
-            
-            // Удаляем элемент после анимации
-            setTimeout(() => {
-                heart.remove();
-            }, 3000);
+            setTimeout(() => heart.remove(), 3000);
         }
     }
-    
-    // Добавляем ключевые кадры для падающих сердечек (динамически)
     if (!document.querySelector('#confettiStyle')) {
         const styleSheet = document.createElement("style");
         styleSheet.id = "confettiStyle";
@@ -441,20 +523,16 @@
     
     surpriseBtn.addEventListener('click', () => {
         createConfetti();
-        // Показываем всплывающее сообщение любви
         alert("💖Я тебя очень люблю! Ты — моя писечка💖\nА ещё ты похож на дрысясисю✨");
-        // дополнительно можно изменить фон на секунду
         document.body.style.backgroundColor = "#ffe4f3";
-        setTimeout(() => {
-            document.body.style.backgroundColor = "";
-        }, 600);
+        setTimeout(() => document.body.style.backgroundColor = "", 600);
     });
 
-    // Запускаем отрисовку галереи
+    // --- Запуск всего ---
     renderGallery();
+    addNavigationArrows();
 
-    // Маленькое предупреждение в консоль, чтобы ты не забыла заменить фото
-    console.log("%c💕 Подарок готов! Не забудь заменить фото котят на свои настоящие фотографии! 💕", "color: #c94f8c; font-size: 14px");
+    console.log("%c💕 Сайт с галереей и стрелками готов! 💕", "color: #c94f8c; font-size: 14px");
 </script>
 </body>
 </html>
