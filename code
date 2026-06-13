@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>С днём рождения!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #ffe6f0 0%, #ffd9e8 100%);
+            font-family: 'Segoe UI', 'Quicksand', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Главная карточка */
+        .gift-card {
+            max-width: 550px;
+            width: 100%;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(3px);
+            border-radius: 70px 70px 70px 40px;
+            box-shadow: 0 25px 45px rgba(255, 105, 180, 0.25), 0 0 0 1px rgba(255,255,200,0.6);
+            overflow: hidden;
+            padding: 28px 22px 40px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            color: #b34180;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        h1 span {
+            font-size: 2.8rem;
+        }
+
+        .sub {
+            color: #d46b9e;
+            font-size: 1.15rem;
+            margin-bottom: 30px;
+            border-bottom: 2px dashed #ffb7c5;
+            display: inline-block;
+            padding-bottom: 6px;
+        }
+
+        /* Галерея миниатюр */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 18px;
+            margin: 30px 0 20px;
+        }
+
+        .photo-item {
+            background: white;
+            border-radius: 32px;
+            padding: 8px;
+            box-shadow: 0 12px 18px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 25px rgba(0,0,0,0.15);
+        }
+
+        .photo-item img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 26px;
+            display: block;
+        }
+
+        /* Модальное окно (всплывающее фото) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            max-width: 90vw;
+            max-height: 85vh;
+            background: rgba(255,248,245,0.95);
+            padding: 20px 20px 25px;
+            border-radius: 48px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 30px 40px rgba(0,0,0,0.3);
+            animation: pop 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 65vh;
+            border-radius: 28px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .caption {
+            margin-top: 18px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #c94f8c;
+            background: #fff0f5;
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 60px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 22px;
+            font-size: 2.4rem;
+            font-weight: bold;
+            color: #b34180;
+            cursor: pointer;
+            background: rgba(255,255,240,0.8);
+            width: 44px;
+            height: 44px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .close-btn:hover {
+            background: #ffc0d0;
+            transform: scale(1.05);
+        }
+
+        /* Кнопка-сюрприз */
+        .surprise-btn {
+            background: #ff88b2;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 50px;
+            margin-top: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #a5426e;
+            transition: 0.07s linear;
+            font-family: inherit;
+        }
+
+        .surprise-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #a5426e;
+        }
+
+        .heart-decoration {
+            font-size: 1.8rem;
+            margin-top: 18px;
+            letter-spacing: 8px;
+            color: #f5a3c0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        footer {
+            font-size: 0.75rem;
+            color: #b3779c;
+            margin-top: 28px;
+            opacity: 0.7;
+        }
+
+        /* подпись под фото в сетке */
+        .photo-label {
+            font-size: 0.7rem;
+            color: #bc7b9e;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div class="gift-card">
+    <h1>
+        <span>🎂🎂🎂<br> </span> С Днём рождения, <br> мой любими Шурик!<span> </span>
+    </h1>
+    <div class="sub">✦ Я сделала мини-сайтик, с нашей маленьковой историей из фотокарточек ✦</div>
+
+    <!-- Здесь будут фото из нашей галереи -->
+    <div class="photo-grid" id="photoGrid"></div>
+
+    <button class="surprise-btn" id="surpriseBtn">💌 жмакай 💌</button>
+
+<!-- БЛОК ТАЙМЕРА ДО 31 АВГУСТА 2026 -->
+<div class="timer-block" style="background: rgba(255, 240, 245, 0.9); border-radius: 60px; padding: 16px 20px; margin: 15px 0 20px; text-align: center; border: 1px solid #ffbfd5;">
+    <div style="font-size: 0.9rem; color: #b85c86; font-weight: 600; margin-bottom: 8px;">
+        ⏳ До нашей первой годовщины осталось ⏳
+    </div>
+    <div id="loveTimer" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; font-weight: bold;">
+        <div style="background: white; border-radius: 40px; padding: 8px 14px; min-width: 70px;">
+            <div id="days" style="font-size: 2rem; color: #c43a7a; line-height: 1; font-weight: 800;">00</div>
+            <div style="font-size: 0.7rem; color: #e597b9;">ДНЕЙ</div>
+        </div>
+        <div style="background: white; border-radius: 40px; padding: 8px 14px; min-width: 70px;">
+            <div id="hours" style="font-size: 2rem; color: #c43a7a; line-height: 1; font-weight: 800;">00</div>
+            <div style="font-size: 0.7rem; color: #e597b9;">ЧАСОВ</div>
+        </div>
+        <div style="background: white; border-radius: 40px; padding: 8px 14px; min-width: 70px;">
+            <div id="minutes" style="font-size: 2rem; color: #c43a7a; line-height: 1; font-weight: 800;">00</div>
+            <div style="font-size: 0.7rem; color: #e597b9;">МИНУТ</div>
+        </div>
+        <div style="background: white; border-radius: 40px; padding: 8px 14px; min-width: 70px;">
+            <div id="seconds" style="font-size: 2rem; color: #c43a7a; line-height: 1; font-weight: 800;">00</div>
+            <div style="font-size: 0.7rem; color: #e597b9;">СЕКУНД</div>
+        </div>
+    </div>
+    <div style="margin-top: 10px; font-size: 0.75rem; color: #d987ae;">
+        ❤️ 31 августа 2026 ❤️
+    </div>
+</div>
+
+<script>
+    // Таймер до 31 августа 2026 года
+    function updateTimer() {
+        const targetDate = new Date(2026, 7, 31, 0, 0, 0); // 31 августа 2026 (месяцы в JS с 0: 7 = август)
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+            // Если дата уже прошла или наступила
+            document.getElementById('days').innerText = '00';
+            document.getElementById('hours').innerText = '00';
+            document.getElementById('minutes').innerText = '00';
+            document.getElementById('seconds').innerText = '00';
+            const timerDiv = document.querySelector('.timer-block div:first-child');
+            if (timerDiv) timerDiv.innerHTML = '🎉 СЧАСТЛИВОЙ ГОДОВЩИНЫ! 🎉';
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (86400000)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (3600000)) / (1000 * 60));
+        const seconds = Math.floor((diff % (60000)) / 1000);
+
+        document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+        document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+        document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+        document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+</script>
+</div>
+    
+<!-- Всплывающее окно (модалка) -->
+<div id="photoModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeModalBtn">&times;</span>
+        <img id="modalImage" src="" alt="Наше фото">
+        <div id="modalCaption" class="caption"></div>
+    </div>
+</div>
+
+<script>
+    // ------------------------------------------------------------------
+    // ★★★ ТУТ ТЫ ДОБАВЛЯЕШЬ СВОИ ФОТОГРАФИИ ★★★
+    // ------------------------------------------------------------------
+    // 1. Замени ссылки на свои реальные фото.
+    // 2. Если фото лежат в папке рядом с этим файлом — пиши просто "myphoto1.jpg"
+    // 3. Можно указать полный путь: "images/photo1.jpg"
+    // 4. Укажи подписи (короткие и милые моменты)
+    // ------------------------------------------------------------------
+    const photosData = [
+        {
+            src: "photo1.jpg",   // ЗАМЕНИ на свою ссылку (например, "foto1.jpg")
+            caption: "наше первое фото в городе у моря"
+        },
+        {
+            src: "photo2.jpg",   // ЗАМЕНИ на "foto2.jpg"
+            caption: "самый вкусный вечер со шпротиками"
+        },
+        {
+            src: "photo3.jpg",   // ЗАМЕНИ
+            caption: "обнимашки у моря"
+        },
+        {
+            src: "photo4.jpg",   // ЗАМЕНИ
+            caption: "холодни зима"
+        },
+        {
+            src: "photo5.jpg",   // ЗАМЕНИ
+            caption: "это мы нишевые сидим"
+        },
+        {
+            src: "photo6.jpg",   // ЗАМЕНИ
+            caption: "кракозябрики в аквапарке"
+        },
+	{
+            src: "photo7.jpg",   // ЗАМЕНИ на "foto2.jpg"
+            caption: "самые крутые рейверы"
+        },
+	{
+            src: "photo8.jpg",   // ЗАМЕНИ на "foto2.jpg"
+            caption: "чуть не встретили джисуса"
+        }
+    ];
+      // Функция для отрисовки миниатюр
+    function renderGallery() {
+        const grid = document.getElementById('photoGrid');
+        grid.innerHTML = '';
+        photosData.forEach((photo, index) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.classList.add('photo-item');
+            // Создаём картинку
+            const img = document.createElement('img');
+            img.src = photo.src;
+            img.alt = `Фото ${index+1}`;
+            img.loading = "lazy";
+            // Подпись под фото (маленькая)
+            const label = document.createElement('div');
+            label.classList.add('photo-label');
+            label.innerText = photo.caption.length > 20 ? photo.caption.slice(0,18)+'…' : photo.caption;
+            
+            itemDiv.appendChild(img);
+            itemDiv.appendChild(label);
+            
+            // Открытие модалки при клике на фото
+            itemDiv.addEventListener('click', (e) => {
+                openModal(photo.src, photo.caption);
+            });
+            grid.appendChild(itemDiv);
+        });
+    }
+
+    // Модальное окно
+    const modal = document.getElementById('photoModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    function openModal(imgSrc, captionText) {
+        modalImage.src = imgSrc;
+        modalCaption.innerText = captionText;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // запрещаем скролл фона
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Закрытие по кнопке
+    closeModalBtn.addEventListener('click', closeModal);
+    // Закрытие по клику вне контента (на полупрозрачный фон)
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    // Закрытие по Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+            closeModal();
+        }
+    });
+
+    // Сюрприз: дополнительное милое сообщение + конфетти
+    const surpriseBtn = document.getElementById('surpriseBtn');
+    
+    function createConfetti() {
+        // Простое конфетти из сердечек
+        for (let i = 0; i < 80; i++) {
+            const heart = document.createElement('div');
+            heart.innerHTML = ['❤️','💖','💗','💓','🌸','✨','💕'][Math.floor(Math.random()*7)];
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = '-30px';
+            heart.style.fontSize = (Math.random() * 24 + 14) + 'px';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '2000';
+            heart.style.opacity = '0.9';
+            heart.style.animation = `fall ${Math.random() * 2 + 2}s linear forwards`;
+            document.body.appendChild(heart);
+            
+            // Удаляем элемент после анимации
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        }
+    }
+    
+    // Добавляем ключевые кадры для падающих сердечек (динамически)
+    if (!document.querySelector('#confettiStyle')) {
+        const styleSheet = document.createElement("style");
+        styleSheet.id = "confettiStyle";
+        styleSheet.textContent = `
+            @keyframes fall {
+                0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+                100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    }
+    
+    surpriseBtn.addEventListener('click', () => {
+        createConfetti();
+        // Показываем всплывающее сообщение любви
+        alert("💖Я тебя очень люблю! Ты — моя писечка💖\nА ещё ты похож на дрысясисю✨");
+        // дополнительно можно изменить фон на секунду
+        document.body.style.backgroundColor = "#ffe4f3";
+        setTimeout(() => {
+            document.body.style.backgroundColor = "";
+        }, 600);
+    });
+
+    // Запускаем отрисовку галереи
+    renderGallery();
+
+    // Маленькое предупреждение в консоль, чтобы ты не забыла заменить фото
+    console.log("%c💕 Подарок готов! Не забудь заменить фото котят на свои настоящие фотографии! 💕", "color: #c94f8c; font-size: 14px");
+</script>
+</body>
+</html>
